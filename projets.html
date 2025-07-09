@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أعمالنا - الموقع الشخصي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            z-index: 1001;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #667eea;
+            padding-right: 1.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .upload-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            background: #f8f9fa;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input:hover {
+            background: #e9ecef;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        /* Projects Grid */
+        .projects-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .projects-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #28a745;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-status.in-progress {
+            background: #ffc107;
+        }
+
+        .project-status.completed {
+            background: #28a745;
+        }
+
+        .project-status.competition {
+            background: #dc3545;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            background: #e9ecef;
+            color: #333;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #764ba2;
+        }
+
+        /* Statistics */
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .projects-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="icon">🏠</span>
+                        الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="articles.html" class="nav-link">
+                        <span class="icon">📚</span>
+                        المقالات
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/electronics.html" class="dropdown-item">إلكترونيك</a>
+                        <a href="pages/informatics.html" class="dropdown-item">إنفورماتيك</a>
+                        <a href="pages/arduino.html" class="dropdown-item">Arduino</a>
+                        <a href="pages/matlab.html" class="dropdown-item">ماتلاب</a>
+                        <a href="pages/simulations.html" class="dropdown-item">محاكيات إلكترونيك</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="tp.html" class="nav-link">
+                        <span class="icon">🔬</span>
+                        الأعمال التطبيقية
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/tp1.html" class="dropdown-item">السنة أولى جامعي</a>
+                        <a href="pages/tp2.html" class="dropdown-item">السنة الثانية إلكترونيك</a>
+                        <a href="pages/tp3.html" class="dropdown-item">السنة الثالثة إلكترونيك</a>
+                        <a href="pages/tp4.html" class="dropdown-item">السنة أولى ماستر أنظمة مضمنة</a>
+                        <a href="pages/tp5.html" class="dropdown-item">السنة ثانية ماستر أنظمة مضمنة</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="projets.html" class="nav-link active">
+                        <span class="icon">🚀</span>
+                        أعمالنا
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <section class="page-header">
+                <h1 class="page-title">أعمالنا</h1>
+                <p class="page-subtitle">مجموعة من المشاريع والأعمال التقنية والمسابقات</p>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <h2 class="upload-title">إضافة مشروع جديد</h2>
+                <form class="upload-form" id="projectForm">
+                    <div class="form-group">
+                        <label class="form-label">اسم المشروع</label>
+                        <input type="text" class="form-input" placeholder="أدخل اسم المشروع" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">وصف المشروع</label>
+                        <textarea class="form-textarea" placeholder="وصف مفصل للمشروع وأهدافه" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">حالة المشروع</label>
+                        <select class="form-select" required>
+                            <option value="">اختر حالة المشروع</option>
+                            <option value="completed">مكتمل</option>
+                            <option value="in-progress">قيد التنفيذ</option>
+                            <option value="competition">مسابقة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">التقنيات المستخدمة</label>
+                        <input type="text" class="form-input" placeholder="Arduino, C++, Python (افصل بفاصلة)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رفع ملفات المشروع</label>
+                        <input type="file" class="file-input" multiple accept=".zip,.rar,.pdf,.doc,.docx">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رفع صور المشروع</label>
+                        <input type="file" class="file-input" multiple accept="image/*">
+                    </div>
+                    <button type="submit" class="submit-btn">إضافة المشروع</button>
+                </form>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">25</div>
+                        <div class="stat-label">مشروع مكتمل</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">مشروع قيد التنفيذ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">مسابقة</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">تقنية مختلفة</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="projects-section">
+                <h2 class="section-title">مشاريعنا</h2>
+                
+                <!-- Filter Buttons -->
+                <div class="projects-filter">
+                    <button class="filter-btn active" data-filter="all">الكل</button>
+                    <button class="filter-btn" data-filter="completed">مكتمل</button>
+                    <button class="filter-btn" data-filter="in-progress">قيد التنفيذ</button>
+                    <button class="filter-btn" data-filter="competition">مسابقات</button>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid" id="projectsGrid">
+                    <div class="project-card" data-category="completed">
+                        <div class="project-image">🤖</div>
+                        <div class="project-content">
+                            <h3 class="project-title">روبوت ذكي للتحكم المنزلي</h3>
+                            <span class="project-status completed">مكتمل</span>
+                            <p class="project-description">
+                                روبوت ذكي قادر على التحكم في الأجهزة المنزلية باستخدام الأوامر الصوتية والتطبيق المحمول.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Arduino</span>
+                                <span class="tech-tag">ESP32</span>
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">IoT</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">عرض المشروع</a>
+                                <a href="#" class="project-link">تحميل الملفات</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="in-progress">
+                        <div class="project-image">📱</div>
+                        <div class="project-content">
+                            <h3 class="project-title">تطبيق مراقبة الأنظمة المضمنة</h3>
+                            <span class="project-status in-progress">قيد التنفيذ</span>
+                            <p class="project-description">
+                                تطبيق محمول لمراقبة والتحكم في الأنظمة المضمنة عن بُعد مع واجهة سهلة الاستخدام.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">ESP32</span>
+                                <span class="tech-tag">MQTT</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">عرض التقدم</a>
+                                <a href="#" class="project-link">المعاينة</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="competition">
+                        <div class="project-image">🏆</div>
+                        <div class="project-content">
+                            <h3 class="project-title">مسابقة الروبوتات الوطنية</h3>
+                            <span class="project-status competition">مسابقة</span>
+                            <p class="project-description">
+                                مشاركة في المسابقة الوطنية للروبوتات بمشروع روبوت متقدم للإنقاذ والبحث.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">ROS</span>
+                                <span class="tech-tag">OpenCV</span>
+                                <span class="tech-tag">Raspberry Pi</span>
+                                <span class="tech-tag">AI</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">تفاصيل المسابقة</a>
+                                <a href="#" class="project-link">الفيديو</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="completed">
+                        <div class="project-image">🌡️</div>
+                        <div class="project-content">
+                            <h3 class="project-title">نظام مراقبة البيئة الذكي</h3>
+                            <span class="project-status completed">مكتمل</span>
+                            <p class="project-description">
+                                نظام متكامل لمراقبة العوامل البيئية مثل درجة الحرارة والرطوبة وجودة الهواء.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Arduino</span>
+                                <span class="tech-tag">LoRa</span>
+                                <span class="tech-tag">Web Dashboard</span>
+                                <span class="tech-tag">MySQL</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">عرض المشروع</a>
+                                <a href="#" class="project-link">تحميل الملفات</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="competition">
+                        <div class="project-image">🚗</div>
+                        <div class="project-content">
+                            <h3 class="project-title">سيارة ذاتية القيادة</h3>
+                            <span class="project-status competition">مسابقة</span>
+                            <p class="project-description">
+                                تطوير نموذج أولي لسيارة ذاتية القيادة للمشاركة في مسابقة الابتكار التقني.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Computer Vision</span>
+                                <span class="tech-tag">TensorFlow</span>
+                                <span class="tech-tag">Raspberry Pi</span>
+                                <span class="tech-tag">Motors</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">تفاصيل المسابقة</a>
+                                <a href="#" class="project-link">عرض تقديمي</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="in-progress">
+                        <div class="project-image">🔋</div>
+                        <div class="project-content">
+                            <h3 class="project-title">نظام إدارة الطاقة المتجددة</h3>
+                            <span class="project-status in-progress">قيد التنفيذ</span>
+                            <p class="project-description">
+                                نظام ذكي لإدارة وتوزيع الطاقة المتجددة في المنازل والمباني الصغيرة.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Solar Panels</span>
+                                <span class="tech-tag">Battery Management</span>
+                                <span class="tech-tag">IoT</span>
+                                <span class="tech-tag">Machine Learning</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link">عرض التقدم</a>
+                                <a href="#" class="project-link">التصميم</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Active navigation handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Project filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter projects
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('تم إرسال المشروع بنجاح! سيتم مراجعته وإضافته قريباً.');
+            this.reset();
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

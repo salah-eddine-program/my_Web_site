@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المقالات - الموقع الشخصي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            z-index: 1001;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #667eea;
+            padding-right: 1.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Articles Categories */
+        .categories-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .category-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .category-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .category-link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        /* Recent Articles */
+        .recent-articles {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .articles-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .article-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .article-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-date {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-excerpt {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #764ba2;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span class="icon">🏠</span>
+                        الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="articles.html" class="nav-link active">
+                        <span class="icon">📚</span>
+                        المقالات
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/electronics.html" class="dropdown-item">إلكترونيك</a>
+                        <a href="pages/informatics.html" class="dropdown-item">إنفورماتيك</a>
+                        <a href="pages/arduino.html" class="dropdown-item">Arduino</a>
+                        <a href="pages/matlab.html" class="dropdown-item">ماتلاب</a>
+                        <a href="pages/simulations.html" class="dropdown-item">محاكيات إلكترونيك</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="tp.html" class="nav-link">
+                        <span class="icon">🔬</span>
+                        الأعمال التطبيقية
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/tp1.html" class="dropdown-item">السنة أولى جامعي</a>
+                        <a href="pages/tp2.html" class="dropdown-item">السنة الثانية إلكترونيك</a>
+                        <a href="pages/tp3.html" class="dropdown-item">السنة الثالثة إلكترونيك</a>
+                        <a href="pages/tp4.html" class="dropdown-item">السنة أولى ماستر أنظمة مضمنة</a>
+                        <a href="pages/tp5.html" class="dropdown-item">السنة ثانية ماستر أنظمة مضمنة</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="projets.html" class="nav-link">
+                        <span class="icon">🚀</span>
+                        أعمالنا
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <section class="page-header">
+                <h1 class="page-title">المقالات</h1>
+                <p class="page-subtitle">مجموعة متنوعة من المقالات التقنية والتعليمية</p>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">⚡</div>
+                        <h3 class="category-title">إلكترونيك</h3>
+                        <p class="category-description">
+                            مقالات متخصصة في الهندسة الإلكترونية والدوائر الإلكترونية والتصميم
+                        </p>
+                        <a href="pages/electronics.html" class="category-link">تصفح المقالات</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">💻</div>
+                        <h3 class="category-title">إنفورماتيك</h3>
+                        <p class="category-description">
+                            مقالات في البرمجة وعلوم الحاسوب والتقنيات الحديثة
+                        </p>
+                        <a href="pages/informatics.html" class="category-link">تصفح المقالات</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🔧</div>
+                        <h3 class="category-title">Arduino</h3>
+                        <p class="category-description">
+                            دروس ومشاريع Arduino والتطبيقات العملية
+                        </p>
+                        <a href="pages/arduino.html" class="category-link">تصفح المقالات</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📊</div>
+                        <h3 class="category-title">ماتلاب</h3>
+                        <p class="category-description">
+                            دروس وتطبيقات MATLAB في الهندسة والرياضيات
+                        </p>
+                        <a href="pages/matlab.html" class="category-link">تصفح المقالات</a>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🎯</div>
+                        <h3 class="category-title">محاكيات إلكترونيك</h3>
+                        <p class="category-description">
+                            شروحات برامج المحاكاة والتصميم الإلكتروني
+                        </p>
+                        <a href="pages/simulations.html" class="category-link">تصفح المقالات</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Articles -->
+            <section class="recent-articles">
+                <h2 class="section-title">أحدث المقالات</h2>
+                <div class="articles-list">
+                    <article class="article-item">
+                        <h3 class="article-title">أساسيات الدوائر الإلكترونية</h3>
+                        <div class="article-date">15 يناير 2025</div>
+                        <p class="article-excerpt">
+                            مقدمة شاملة حول أساسيات الدوائر الإلكترونية والمكونات الأساسية المستخدمة في التصميم...
+                        </p>
+                        <a href="pages/electronics.html" class="read-more">اقرأ المزيد</a>
+                    </article>
+                    <article class="article-item">
+                        <h3 class="article-title">برمجة Arduino للمبتدئين</h3>
+                        <div class="article-date">12 يناير 2025</div>
+                        <p class="article-excerpt">
+                            دليل شامل لتعلم برمجة Arduino من البداية مع أمثلة عملية ومشاريع بسيطة...
+                        </p>
+                        <a href="pages/arduino.html" class="read-more">اقرأ المزيد</a>
+                    </article>
+                    <article class="article-item">
+                        <h3 class="article-title">تحليل الإشارات باستخدام MATLAB</h3>
+                        <div class="article-date">10 يناير 2025</div>
+                        <p class="article-excerpt">
+                            تعلم كيفية تحليل الإشارات الرقمية والتناظرية باستخدام MATLAB مع أمثلة عملية...
+                        </p>
+                        <a href="pages/matlab.html" class="read-more">اقرأ المزيد</a>
+                    </article>
+                    <article class="article-item">
+                        <h3 class="article-title">محاكاة الدوائر في Proteus</h3>
+                        <div class="article-date">8 يناير 2025</div>
+                        <p class="article-excerpt">
+                            دليل شامل لاستخدام برنامج Proteus في محاكاة الدوائر الإلكترونية والمعالجات الدقيقة...
+                        </p>
+                        <a href="pages/simulations.html" class="read-more">اقرأ المزيد</a>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Active navigation handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

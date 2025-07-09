@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموقع الشخصي - بن التواتي صالح الدين و محمدرضوان قفال</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            z-index: 1001;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #667eea;
+            padding-right: 1.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        /* Founders Section */
+        .founders-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .founders-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 3rem;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            justify-items: center;
+        }
+
+        .founder-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .founder-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #667eea;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .founder-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .founder-title {
+            font-size: 1.1rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .founder-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .founders-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <span class="icon">🏠</span>
+                        الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="articles.html" class="nav-link">
+                        <span class="icon">📚</span>
+                        المقالات
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/electronics.html" class="dropdown-item">إلكترونيك</a>
+                        <a href="pages/informatics.html" class="dropdown-item">إنفورماتيك</a>
+                        <a href="pages/arduino.html" class="dropdown-item">Arduino</a>
+                        <a href="pages/matlab.html" class="dropdown-item">ماتلاب</a>
+                        <a href="pages/simulations.html" class="dropdown-item">محاكيات إلكترونيك</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="tp.html" class="nav-link">
+                        <span class="icon">🔬</span>
+                        الأعمال التطبيقية
+                    </a>
+                    <div class="dropdown">
+                        <a href="pages/tp1.html" class="dropdown-item">السنة أولى جامعي</a>
+                        <a href="pages/tp2.html" class="dropdown-item">السنة الثانية إلكترونيك</a>
+                        <a href="pages/tp3.html" class="dropdown-item">السنة الثالثة إلكترونيك</a>
+                        <a href="pages/tp4.html" class="dropdown-item">السنة أولى ماستر أنظمة مضمنة</a>
+                        <a href="pages/tp5.html" class="dropdown-item">السنة ثانية ماستر أنظمة مضمنة</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="projets.html" class="nav-link">
+                        <span class="icon">🚀</span>
+                        أعمالنا
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="hero-title">مرحباً بكم في موقعنا الشخصي</h1>
+                <p class="hero-subtitle">موقع متخصص في الإلكترونيك والأنظمة المضمنة</p>
+            </section>
+
+            <!-- Founders Section -->
+            <section class="founders-section">
+                <h2 class="founders-title">مؤسسو الموقع</h2>
+                <div class="founders-grid">
+                    <div class="founder-card">
+                        <div class="founder-image">
+                            ص.د
+                        </div>
+                        <h3 class="founder-name">بن التواتي صالح الدين</h3>
+                        <p class="founder-title">مهندس إلكترونيك أنظمة مضمنة</p>
+                        <p class="founder-description">
+                            متخصص في تطوير الأنظمة المضمنة والإلكترونيك المتقدم، مع خبرة واسعة في تصميم وتطوير الحلول التقنية المبتكرة.
+                        </p>
+                    </div>
+                    <div class="founder-card">
+                        <div class="founder-image">
+                            ر.ق
+                        </div>
+                        <h3 class="founder-name">رضوان قفال</h3>
+                        <p class="founder-title">مهندس إلكترونيك أنظمة مضمنة</p>
+                        <p class="founder-description">
+                            خبير في الأنظمة المضمنة والبرمجة، متخصص في تطوير التطبيقات والحلول التقنية المتقدمة في مجال الإلكترونيك.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Active navigation handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
